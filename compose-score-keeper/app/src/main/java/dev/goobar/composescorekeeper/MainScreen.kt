@@ -1,5 +1,6 @@
 package dev.goobar.composescorekeeper
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +27,9 @@ fun MainScreen() {
   var currentScore by remember { mutableStateOf(0) }
 
   Column(
-    modifier = Modifier.fillMaxSize().padding(20.dp),
+    modifier = Modifier
+      .fillMaxSize()
+      .padding(20.dp),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     Text(text = "Score", style = MaterialTheme.typography.h1)
@@ -36,7 +39,7 @@ fun MainScreen() {
       color = if (currentScore.isMaxScore()) MaterialTheme.colors.secondary else MaterialTheme.colors.onBackground
     )
 
-    if (currentScore.isMaxScore()) {
+    AnimatedVisibility(visible = currentScore.isMaxScore()) {
       Text(text = "You Won!", style = MaterialTheme.typography.subtitle1)
     }
 

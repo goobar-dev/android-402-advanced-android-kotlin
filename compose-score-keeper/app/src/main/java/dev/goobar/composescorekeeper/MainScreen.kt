@@ -30,7 +30,11 @@ fun MainScreen() {
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     Text(text = "Score", style = MaterialTheme.typography.h1)
-    Text(text = "$currentScore", style = MaterialTheme.typography.h1)
+    Text(
+      text = "$currentScore",
+      style = MaterialTheme.typography.h1,
+      color = if (currentScore.isMaxScore()) MaterialTheme.colors.secondary else MaterialTheme.colors.onBackground
+    )
 
     if (currentScore.isMaxScore()) {
       Text(text = "You Won!", style = MaterialTheme.typography.subtitle1)

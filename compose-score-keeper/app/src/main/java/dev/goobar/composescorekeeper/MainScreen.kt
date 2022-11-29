@@ -17,6 +17,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +30,7 @@ private fun Int.isMaxScore() = this >= MAX_SCORE
 @Composable
 fun MainScreen() {
 
-  val currentScore = remember { mutableStateOf(0) }
+  val currentScore = rememberSaveable { mutableStateOf(0) }
   val configuration = LocalConfiguration.current
 
   when (configuration.orientation) {

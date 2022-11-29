@@ -1,8 +1,12 @@
 package dev.goobar.composescorekeeper
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
@@ -16,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 
 private const val MAX_SCORE = 20
@@ -24,7 +29,52 @@ private fun Int.isMaxScore() = this >= MAX_SCORE
 @Composable
 fun MainScreen() {
 
-  var currentScore by remember { mutableStateOf(0) }
+  val currentScore = remember { mutableStateOf(0) }
+  val configuration = LocalConfiguration.current
+
+  when (configuration.orientation) {
+    Configuration.ORIENTATION_LANDSCAPE -> LandscapeContent(currentScore)
+    else -> PortraitContent(score = currentScore)
+  }
+}
+
+@Composable
+private fun LandscapeContent(score: MutableState<Int>) {
+  var currentScore by score
+
+  Row(
+    modifier = Modifier.fillMaxSize(1f)
+  ) {
+    Column(
+      modifier = Modifier.weight(1f).fillMaxHeight(1f),
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.Center
+    ) {
+      Text(text = "Score", style = MaterialTheme.typography.h1)
+      Text(
+        text = "$currentScore",
+        style = MaterialTheme.typography.h1,
+        color = if (currentScore.isMaxScore()) MaterialTheme.colors.secondary else MaterialTheme.colors.onBackground
+      )
+
+      AnimatedVisibility(visible = currentScore.isMaxScore()) {
+        Text(text = "You Won!", style = MaterialTheme.typography.subtitle1)
+      }
+    }
+
+    Column(
+      modifier = Modifier.weight(1f).fillMaxHeight(1f),
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.Center
+    ) {
+      ActionButton(currentScore.isMaxScore(), { currentScore++ }, { currentScore = 0})
+    }
+  }
+}
+
+@Composable
+private fun PortraitContent(score: MutableState<Int>) {
+  var currentScore by score
 
   Column(
     modifier = Modifier
@@ -45,11 +95,16 @@ fun MainScreen() {
 
     Spacer(modifier = Modifier.weight(1f)) // ensure content fills screen
 
-    if (currentScore.isMaxScore()) {
-      ResetButton { currentScore = 0 }
-    } else {
-      PlusOneButton { currentScore++ }
-    }
+    ActionButton(currentScore.isMaxScore(), { currentScore++ }, { currentScore = 0})
+  }
+}
+
+@Composable
+private fun ActionButton(isMaxScore: Boolean, onPlusOneClick: () -> Unit, onResetClick: () -> Unit) {
+  if (isMaxScore) {
+    ResetButton(onResetClick)
+  } else {
+    PlusOneButton(onPlusOneClick)
   }
 }
 

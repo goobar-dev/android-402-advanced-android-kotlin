@@ -3,7 +3,10 @@ plugins {
   id("org.jetbrains.kotlin.android")
   id("kotlin-kapt")
   id("com.google.dagger.hilt.android")
+  id("com.google.devtools.ksp")
 }
+
+val STUDY_GUIDE_SERVICE_URL: String by project
 
 android {
   namespace = "dev.goobar.androidstudyguide"
@@ -20,6 +23,8 @@ android {
     vectorDrawables {
       useSupportLibrary = true
     }
+
+    buildConfigField("String", "STUDY_GUIDE_SERVICE_URL", "\"$STUDY_GUIDE_SERVICE_URL\"")
   }
 
   compileOptions {
@@ -60,6 +65,11 @@ dependencies {
   implementation("androidx.compose.material:material:1.3.1")
   implementation("com.google.dagger:hilt-android:2.44")
   kapt("com.google.dagger:hilt-compiler:2.44")
+
+  implementation("com.squareup.retrofit2:retrofit:2.9.0")
+  implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+  implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
+  ksp("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
 
 
   testImplementation("junit:junit:4.13.2")

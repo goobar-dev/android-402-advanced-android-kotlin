@@ -2,6 +2,7 @@ package dev.goobar.composescorekeeper
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -33,9 +35,13 @@ fun MainScreen() {
   val currentScore = rememberSaveable { mutableStateOf(0) }
   val configuration = LocalConfiguration.current
 
-  when (configuration.orientation) {
-    Configuration.ORIENTATION_LANDSCAPE -> LandscapeContent(currentScore)
-    else -> PortraitContent(score = currentScore)
+  // wrapping this all in Surface is a shortcut for Theming
+  // Column/Row don't trigger any of the "onBackground" or "onSurface" colors by default
+  Surface() {
+    when (configuration.orientation) {
+      Configuration.ORIENTATION_LANDSCAPE -> LandscapeContent(currentScore)
+      else -> PortraitContent(score = currentScore)
+    }
   }
 }
 
@@ -47,7 +53,9 @@ private fun LandscapeContent(score: MutableState<Int>) {
     modifier = Modifier.fillMaxSize(1f)
   ) {
     Column(
-      modifier = Modifier.weight(1f).fillMaxHeight(1f),
+      modifier = Modifier
+        .weight(1f)
+        .fillMaxHeight(1f),
       horizontalAlignment = Alignment.CenterHorizontally,
       verticalArrangement = Arrangement.Center
     ) {
@@ -64,7 +72,9 @@ private fun LandscapeContent(score: MutableState<Int>) {
     }
 
     Column(
-      modifier = Modifier.weight(1f).fillMaxHeight(1f),
+      modifier = Modifier
+        .weight(1f)
+        .fillMaxHeight(1f),
       horizontalAlignment = Alignment.CenterHorizontally,
       verticalArrangement = Arrangement.Center
     ) {

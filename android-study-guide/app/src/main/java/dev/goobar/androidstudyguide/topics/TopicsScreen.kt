@@ -11,27 +11,31 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import dev.goobar.analytics.LogcatLogger
-import dev.goobar.analytics.Logger
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun TopicsScreen() {
+fun TopicsScreen(viewModel: TopicsViewModel = viewModel()) {
 
-  val topics = remember { dev.goobar.data.SAMPLE_TOPICS }
-  val logger: dev.goobar.analytics.Logger = remember { dev.goobar.analytics.LogcatLogger() }
-  val context = LocalContext.current
+  val topics by viewModel.topics.collectAsState()
+  val scaffoldState = rememberScaffoldState()
 
-  Scaffold() { paddingValues ->
+  LaunchedEffect(viewModel) {
+    viewModel.events.collect { event ->
+      when (event) {
+        is TopicsViewModel.Events.ShowTopicClickedMessage -> {
+          scaffoldState.snackbarHostState.showSnackbar(event.message)
+        }
+      }
+    }
+  }
+
+  Scaffold(
+    scaffoldState = scaffoldState
+  ) { paddingValues ->
     LazyColumn(
       modifier = Modifier.fillMaxSize(1f),
       contentPadding = PaddingValues(20.dp),
@@ -39,8 +43,7 @@ fun TopicsScreen() {
     ) {
       items(topics) { topic ->
         TopicCard(topic) {
-          logger.log("Topic Clicked", mapOf("topic_title" to it.title))
-          Toast.makeText(context, "Clicked ${it.title}", Toast.LENGTH_SHORT).show()
+          viewModel.onTopicClicked(it)
         }
       }
     }

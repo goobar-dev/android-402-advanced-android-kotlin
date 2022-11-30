@@ -142,6 +142,8 @@ private fun ResetButton(onClick: () -> Unit) {
 @Preview(device = Devices.NEXUS_5, group = "phones")
 @Preview(device = Devices.NEXUS_5, group = "phones", uiMode = UI_MODE_NIGHT_YES)
 @Preview(device = Devices.PIXEL_4_XL, group = "phones")
+@Preview(device = Devices.NEXUS_10, group = "tablets")
+@Preview(device = Devices.NEXUS_7, group = "tablets")
 @Composable
 fun PreviewMainScreen(@PreviewParameter(ScorePreviewParameterProvider::class) score: Int) {
   ComposeScoreKeeperTheme {

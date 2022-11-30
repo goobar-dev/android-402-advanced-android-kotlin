@@ -1,6 +1,7 @@
 package dev.goobar.composescorekeeper
 
 import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,15 +25,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import dev.goobar.composescorekeeper.ui.theme.ComposeScoreKeeperTheme
 
 private const val MAX_SCORE = 20
 private fun Int.isMaxScore() = this >= MAX_SCORE
 
 @Composable
-fun MainScreen() {
+fun MainScreen(initialScore: Int = 0) {
 
-  val currentScore = rememberSaveable { mutableStateOf(0) }
+  val currentScore = rememberSaveable { mutableStateOf(initialScore) }
   val configuration = LocalConfiguration.current
 
   // wrapping this all in Surface is a shortcut for Theming
@@ -131,4 +137,20 @@ private fun ResetButton(onClick: () -> Unit) {
   Button(onClick = onClick) {
     Text(text = "Reset", style = MaterialTheme.typography.subtitle1)
   }
+}
+
+@Preview(device = Devices.NEXUS_5, group = "phones")
+@Preview(device = Devices.NEXUS_5, group = "phones", uiMode = UI_MODE_NIGHT_YES)
+@Preview(device = Devices.PIXEL_4_XL, group = "phones")
+@Composable
+fun PreviewMainScreen(@PreviewParameter(ScorePreviewParameterProvider::class) score: Int) {
+  ComposeScoreKeeperTheme {
+    MainScreen(score)
+  }
+}
+
+class ScorePreviewParameterProvider : PreviewParameterProvider<Int> {
+  override val values = sequenceOf(
+    0, 5, 20
+  )
 }

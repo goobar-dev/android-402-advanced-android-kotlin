@@ -40,6 +40,7 @@ fun AddNoteScreen(
     }
 
     val showSaveButton by viewModel.showSaveButton.collectAsState()
+    val selectedCategory by viewModel.selectedCategory.collectAsState()
 
     Scaffold(
         topBar = { StudyGuideAppBar(stringResource(R.string.add_note), onBackClick) },
@@ -70,7 +71,7 @@ fun AddNoteScreen(
                 modifier = Modifier
                     .padding(20.dp)
                     .fillMaxWidth(),
-                viewModel.selectedCategory,
+                selectedCategory,
                 viewModel.categories.toImmutableList(),
                 viewModel::onCategoryClicked
             )

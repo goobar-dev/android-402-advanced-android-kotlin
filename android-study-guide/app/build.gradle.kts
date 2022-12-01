@@ -85,6 +85,7 @@ dependencies {
   implementation("androidx.room:room-ktx:2.4.2")
   implementation("net.zetetic:android-database-sqlcipher:4.5.0")
 
+  implementation("androidx.datastore:datastore-preferences:1.0.0")
 
   testImplementation("junit:junit:4.13.2")
 

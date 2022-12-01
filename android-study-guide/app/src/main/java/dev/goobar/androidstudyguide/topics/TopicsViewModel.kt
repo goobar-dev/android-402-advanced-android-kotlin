@@ -32,15 +32,7 @@ class TopicsViewModel @Inject constructor(
     ) : ViewModel() {
 
     val topics = flow {
-        val topics = service.getTopics().map { it.toViewItem() }
-
-        var count = 0
-        while (true) {
-            val updatedFirstTopic = topics[0].copy(title = "$count ${topics[0].title}")
-            count++
-            emit(listOf(updatedFirstTopic) + topics.subList(1, topics.lastIndex))
-            delay(2000)
-        }
+        emit(service.getTopics().map { it.toViewItem() })
     }.stateIn(viewModelScope + Dispatchers.IO, SharingStarted.WhileSubscribed(3000), emptyList())
 
     private val _events: MutableSharedFlow<Events> = MutableSharedFlow()

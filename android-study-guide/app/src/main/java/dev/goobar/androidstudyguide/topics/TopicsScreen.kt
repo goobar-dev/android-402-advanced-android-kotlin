@@ -1,24 +1,30 @@
 package dev.goobar.androidstudyguide.topics
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.placeholder
+import dev.goobar.androidstudyguide.R
+import dev.goobar.androidstudyguide.design.LoadingCard
+import dev.goobar.androidstudyguide.design.StudyGuideAppBar
 
 @Composable
-fun TopicsScreen(viewModel: TopicsViewModel = viewModel()) {
+fun TopicsScreen(
+  onBackClick: () -> Unit,
+  viewModel: TopicsViewModel = hiltViewModel()
+) {
 
   val topics by viewModel.topics.collectAsState()
   val scaffoldState = rememberScaffoldState()
@@ -34,15 +40,24 @@ fun TopicsScreen(viewModel: TopicsViewModel = viewModel()) {
   }
 
   Scaffold(
-    scaffoldState = scaffoldState
+    scaffoldState = scaffoldState,
+    topBar = {
+      StudyGuideAppBar(stringResource(R.string.topics), onBackClick)
+    }
   ) { paddingValues ->
     LazyColumn(
       modifier = Modifier.fillMaxSize(1f),
       contentPadding = PaddingValues(20.dp),
       verticalArrangement = spacedBy(16.dp)
     ) {
-      items(topics) { topic ->
-        TopicCard(topic, viewModel::onTopicClicked)
+      if (topics.isEmpty()) {
+        items(10) {
+          LoadingCard()
+        }
+      } else {
+        items(topics) { topic ->
+          TopicCard(topic, viewModel::onTopicClicked)
+        }
       }
     }
   }

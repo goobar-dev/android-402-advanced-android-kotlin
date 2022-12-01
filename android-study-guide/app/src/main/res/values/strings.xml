@@ -1,0 +1,12 @@
+<resources>
+  <string name="app_name">Android Study Guide</string>
+
+  <string name="topics">Topics</string>
+  <string name="trending">Trending</string>
+  <string name="notes">Notes</string>
+  <string name="add_note">Add Note</string>
+
+  <string name="note_title_label">Title</string>
+  <string name="note_category_label">Category</string>
+  <string name="note_content_label">Write your note here</string>
+</resources>

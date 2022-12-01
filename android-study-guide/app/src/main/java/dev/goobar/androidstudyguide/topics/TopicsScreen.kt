@@ -42,9 +42,7 @@ fun TopicsScreen(viewModel: TopicsViewModel = viewModel()) {
       verticalArrangement = spacedBy(16.dp)
     ) {
       items(topics) { topic ->
-        TopicCard(topic) {
-          viewModel.onTopicClicked(it)
-        }
+        TopicCard(topic, viewModel::onTopicClicked)
       }
     }
   }
@@ -52,7 +50,7 @@ fun TopicsScreen(viewModel: TopicsViewModel = viewModel()) {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TopicCard(topic: dev.goobar.data.Topic, onClick: (dev.goobar.data.Topic) -> Unit) {
+fun TopicCard(topic: TopicViewItem, onClick: (TopicViewItem) -> Unit) {
   Card(
     modifier = Modifier.fillMaxWidth(1f),
     elevation = 4.dp,

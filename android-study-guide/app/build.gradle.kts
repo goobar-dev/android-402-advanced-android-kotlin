@@ -7,6 +7,7 @@ plugins {
 }
 
 val STUDY_GUIDE_SERVICE_URL: String by project
+val DATABASE_PASSWORD: String by project
 
 android {
   namespace = "dev.goobar.androidstudyguide"
@@ -25,6 +26,7 @@ android {
     }
 
     buildConfigField("String", "STUDY_GUIDE_SERVICE_URL", "\"$STUDY_GUIDE_SERVICE_URL\"")
+    buildConfigField("String", "DATABASE_PASSWORD", "\"$DATABASE_PASSWORD\"")
   }
 
   compileOptions {
@@ -81,6 +83,7 @@ dependencies {
   implementation("androidx.room:room-runtime:2.4.2")
   ksp("androidx.room:room-compiler:2.4.2")
   implementation("androidx.room:room-ktx:2.4.2")
+  implementation("net.zetetic:android-database-sqlcipher:4.5.0")
 
 
   testImplementation("junit:junit:4.13.2")

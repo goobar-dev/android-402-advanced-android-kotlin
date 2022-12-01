@@ -31,6 +31,14 @@ fun AddNoteScreen(
     viewModel: AddNoteViewModel = hiltViewModel()
 ) {
 
+    LaunchedEffect(Unit) {
+        viewModel.events.collect {
+            when (it) {
+                AddNoteViewModel.Event.SaveCompleted -> onBackClick()
+            }
+        }
+    }
+
     val showSaveButton by viewModel.showSaveButton.collectAsState()
 
     Scaffold(

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "207927317548",
+    "project_id": "android-402-12-22",
+    "storage_bucket": "android-402-12-22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207927317548:android:9d71cdf2f45e3d55532d89",
+        "android_client_info": {
+          "package_name": "dev.goobar.androidstudyguide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "207927317548-rjspldvlh7df26i6jqnj7ge3a98qo6qu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFcWFDmOliNgUBHpjLtvBv8fIr1-sFC1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207927317548-rjspldvlh7df26i6jqnj7ge3a98qo6qu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

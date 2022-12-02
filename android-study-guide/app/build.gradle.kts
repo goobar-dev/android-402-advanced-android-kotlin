@@ -4,6 +4,8 @@ plugins {
   id("kotlin-kapt")
   id("com.google.dagger.hilt.android")
   id("com.google.devtools.ksp")
+  id("com.google.gms.google-services")
+  id("com.google.firebase.crashlytics")
 }
 
 val STUDY_GUIDE_SERVICE_URL: String by project
@@ -27,14 +29,6 @@ android {
 
     buildConfigField("String", "STUDY_GUIDE_SERVICE_URL", "\"$STUDY_GUIDE_SERVICE_URL\"")
     buildConfigField("String", "DATABASE_PASSWORD", "\"$DATABASE_PASSWORD\"")
-
-//    javaCompileOptions {
-//      annotationProcessorOptions {
-//        compilerArgumentProviders(
-//          RoomSchemaArgProvider(File(projectDir, "schemas"))
-//        )
-//      }
-//    }
   }
 
   compileOptions {
@@ -102,6 +96,10 @@ dependencies {
   implementation("androidx.work:work-runtime-ktx:2.7.1")
   implementation("androidx.hilt:hilt-work:1.0.0")
   kapt("androidx.hilt:hilt-compiler:1.0.0")
+
+
+  implementation(platform("com.google.firebase:firebase-bom:31.1.0"))
+  implementation("com.google.firebase:firebase-crashlytics")
 
   testImplementation("junit:junit:4.13.2")
 

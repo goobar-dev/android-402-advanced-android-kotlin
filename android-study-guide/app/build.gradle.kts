@@ -27,6 +27,14 @@ android {
 
     buildConfigField("String", "STUDY_GUIDE_SERVICE_URL", "\"$STUDY_GUIDE_SERVICE_URL\"")
     buildConfigField("String", "DATABASE_PASSWORD", "\"$DATABASE_PASSWORD\"")
+
+//    javaCompileOptions {
+//      annotationProcessorOptions {
+//        compilerArgumentProviders(
+//          RoomSchemaArgProvider(File(projectDir, "schemas"))
+//        )
+//      }
+//    }
   }
 
   compileOptions {
@@ -51,6 +59,10 @@ android {
 
 kapt {
   correctErrorTypes = true
+}
+
+ksp {
+  arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
 }
 
 val compose_ui_version = "1.3.1"
@@ -87,8 +99,23 @@ dependencies {
 
   implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+  implementation("androidx.work:work-runtime-ktx:2.7.1")
+  implementation("androidx.hilt:hilt-work:1.0.0")
+  kapt("androidx.hilt:hilt-compiler:1.0.0")
+
   testImplementation("junit:junit:4.13.2")
 
   debugImplementation("androidx.compose.ui:ui-tooling:$compose_ui_version")
   debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_ui_version")
+}
+
+class RoomSchemaArgProvider(
+  @get:InputDirectory
+  @get:PathSensitive(PathSensitivity.RELATIVE)
+  val schemaDir: File
+) : CommandLineArgumentProvider {
+
+  override fun asArguments(): Iterable<String> {
+    return listOf("room.schemaLocation=${schemaDir.path}")
+  }
 }

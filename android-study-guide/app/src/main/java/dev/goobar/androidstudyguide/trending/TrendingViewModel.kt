@@ -28,7 +28,9 @@ class TrendingViewModel @Inject constructor(
   private val repoDao: RepoDao
 ) : ViewModel() {
 
-  val repos: StateFlow<List<FeaturedRepoViewItem>> = flowOf(emptyList<FeaturedRepoViewItem>())
+  val repos: StateFlow<List<FeaturedRepoViewItem>> = repoDao
+    .getAll()
+    .map { it.map { it.toViewItem() } }
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
 }

@@ -21,7 +21,11 @@ class FeaturedReposSyncWorker @AssistedInject constructor(
 
   override suspend fun doWork(): Result {
 
-    // todo fetch featured repos and save them to the database
+    repoDao.save(
+      featuredReposService
+        .getFeaturedAndroidRepos().items
+        .map { repo -> RepoEntity(repo.name, repo.displayName, repo.description, repo.createdBy) }
+    )
 
     return Result.success()
   }

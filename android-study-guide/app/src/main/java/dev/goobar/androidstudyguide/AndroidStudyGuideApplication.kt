@@ -19,4 +19,16 @@ class AndroidStudyGuideApplication : Application(), Configuration.Provider {
     Configuration.Builder()
       .setWorkerFactory(workerFactory)
       .build()
+
+  override fun onCreate() {
+    super.onCreate()
+
+    val uploadWorkRequest: WorkRequest =
+      OneTimeWorkRequestBuilder<FeaturedReposSyncWorker>()
+        .build()
+
+    WorkManager
+      .getInstance(this)
+      .enqueue(uploadWorkRequest)
+  }
 }

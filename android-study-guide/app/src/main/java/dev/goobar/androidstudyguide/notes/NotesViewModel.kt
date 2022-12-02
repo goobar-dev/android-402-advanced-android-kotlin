@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.goobar.analytics.Logger
 import dev.goobar.androidstudyguide.db.NoteDao
 import dev.goobar.data.NoteEntity
 import kotlinx.coroutines.flow.*
@@ -20,6 +21,7 @@ private fun NoteEntity.toViewItem() = NoteViewItem(id, title, category, content)
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
+    private val logger: Logger,
     private val noteDao: NoteDao
 ) : ViewModel() {
 
@@ -29,6 +31,6 @@ class NotesViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList<NoteViewItem>())
 
     fun onNoteClicked(note: NoteViewItem) {
-        // TODO
+        logger.log("Note Clicked", mapOf("id" to note.id))
     }
 }

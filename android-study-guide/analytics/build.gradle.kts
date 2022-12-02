@@ -32,4 +32,7 @@ android {
 
 dependencies {
   implementation("com.google.dagger:hilt-android:2.44")
+
+  implementation(platform("com.google.firebase:firebase-bom:31.1.0"))
+  implementation("com.google.firebase:firebase-analytics")
 }
